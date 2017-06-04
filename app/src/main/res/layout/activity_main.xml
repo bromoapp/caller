@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.litaal.nativecall.activity.MainActivity">
+    tools:context="com.litaal.caller.activity.MainActivity">
 
     <LinearLayout
         android:id="@+id/self_video_container"

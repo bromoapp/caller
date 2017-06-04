@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.opengl.GLSurfaceView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -24,17 +24,10 @@ import com.litaal.caller.helper.serv.ServiceConnector;
 import com.litaal.caller.service.bg.SignalingWorker;
 import com.litaal.caller.service.bg.WebRTCWorker;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.webrtc.MediaStream;
-import org.webrtc.PeerConnection;
-import org.webrtc.PeerConnectionFactory;
 import org.webrtc.SessionDescription;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         IConnectionListener, IIntentReceiver {
-
-    private static Logger log = LoggerFactory.getLogger(MainActivity.class);
 
     private Gson gson = new Gson();
     private Button btnConnect;
@@ -52,10 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ServiceConnection webRTCWorkerConn;
     private IntentReceiver webRTCWorkerIntentReceiver;
     private boolean isWebRTCWorkerIntentReceiverRegistered = false;
-
-    private PeerConnectionFactory factory;
-    private PeerConnection peerConnection;
-    private MediaStream localStream;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
