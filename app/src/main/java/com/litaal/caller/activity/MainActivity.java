@@ -24,10 +24,14 @@ import com.litaal.caller.helper.serv.ServiceConnector;
 import com.litaal.caller.service.bg.SignalingWorker;
 import com.litaal.caller.service.bg.WebRTCWorker;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.webrtc.SessionDescription;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         IConnectionListener, IIntentReceiver {
+
+    private static Logger log = LoggerFactory.getLogger(MainActivity.class);
 
     private Gson gson = new Gson();
     private Button btnConnect;
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnHangup = (Button) findViewById(R.id.btn_hangup);
         btnHangup.setOnClickListener(this);
 
-        // Initiates worker services
+        // Initiates background services
         signalingWorkerConn = new ServiceConnector(this);
         startService(new Intent(getBaseContext(), SignalingWorker.class));
         bindService(new Intent(getBaseContext(), SignalingWorker.class), signalingWorkerConn, Service.BIND_AUTO_CREATE);
@@ -131,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onDisconnected(String name) {
-        Toast.makeText(getBaseContext(), "SIGNAL SERVICE DISCONNECTED", Toast.LENGTH_LONG);
+        // TODO
     }
 
     @Override
