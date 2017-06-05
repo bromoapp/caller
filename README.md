@@ -14,7 +14,7 @@ To test this application:
 * Start one2one Phoenix application,
 * Open http://localhost:4000 in your browser, and choose **"Goto Callee Page"**,
 * And start this application in emulator,
-* Click on **Connect** and **Call* button on Caller app, so the magic can works.
+* Click on **Connect** and **Call** button on Caller app, so the magic can works.
 
 Screen shoot
 
