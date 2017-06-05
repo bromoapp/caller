@@ -7,6 +7,7 @@ import android.opengl.GLSurfaceView;
 import android.os.IBinder;
 import android.view.ViewGroup;
 
+import com.litaal.caller.helper.rtc.CameraEventsHandlerImpl;
 import com.litaal.caller.helper.rtc.PeerConnObserverImpl;
 import com.litaal.caller.helper.rtc.SdpObserverImpl;
 import com.litaal.caller.helper.serv.ServiceBinder;
@@ -59,38 +60,13 @@ public class WebRTCWorker extends Service {
     /**
      * Creates a camera preview and stream to broadcast
      */
-    public void initiateCamera(ViewGroup layout) {
+    public void initCamera(ViewGroup layout) {
         try {
             if (PeerConnectionFactory.initializeAndroidGlobals(getBaseContext(), true, true, false)) {
                 peerConnFactory = new PeerConnectionFactory();
                 String camName = CameraEnumerationAndroid.getNameOfFrontFacingDevice();
 
-                VideoCapturerAndroid vidCapturer = VideoCapturerAndroid.create(camName, new VideoCapturerAndroid.CameraEventsHandler() {
-                    @Override
-                    public void onCameraError(String s) {
-                        log.info(">>> CAMERA ERROR ", s);
-                    }
-
-                    @Override
-                    public void onCameraFreezed(String s) {
-                        log.info(">>> CAMERA FREEZED ", s);
-                    }
-
-                    @Override
-                    public void onCameraOpening(int i) {
-                        log.info(">>> CAMERA OPENING");
-                    }
-
-                    @Override
-                    public void onFirstFrameAvailable() {
-                        log.info(">>> CAMERA ON FIRST FRAME AVAIL");
-                    }
-
-                    @Override
-                    public void onCameraClosed() {
-                        log.info(">>> CAMERA CLOSED");
-                    }
-                });
+                VideoCapturerAndroid vidCapturer = VideoCapturerAndroid.create(camName, new CameraEventsHandlerImpl());
 
                 MediaConstraints vidConstraints = new MediaConstraints();
                 VideoSource vidSource = peerConnFactory.createVideoSource(vidCapturer, vidConstraints);
@@ -121,7 +97,7 @@ public class WebRTCWorker extends Service {
         }
     }
 
-    public void initiateCall(Activity activity) {
+    public void initCall(Activity activity) {
         try {
             MediaConstraints constraints = new MediaConstraints();
             constraints.mandatory.add(new MediaConstraints.KeyValuePair("OfferToReceiveAudio", "true"));

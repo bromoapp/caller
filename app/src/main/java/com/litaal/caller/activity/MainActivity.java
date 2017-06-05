@@ -111,11 +111,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn = (Button) v;
         if (btn.getText().toString().equalsIgnoreCase("Connect")) {
             btnConnect.setEnabled(false);
-            webRTCWorker.initiateCamera(selfVideoContainer);
+            webRTCWorker.initCamera(selfVideoContainer);
         }
         if (btn.getText().toString().equalsIgnoreCase("Call")) {
             btnCall.setEnabled(false);
-            webRTCWorker.initiateCall(MainActivity.this);
+            webRTCWorker.initCall(MainActivity.this);
         }
         if (btn.getText().toString().equalsIgnoreCase("Hangup")) {
             //TODO
