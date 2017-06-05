@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -36,8 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnConnect;
     private Button btnCall;
     private Button btnHangup;
-    private LinearLayout selfVideoContainer;
-    private GLSurfaceView selfVideo;
+    private LinearLayout videoViewContainer;
 
     private SignalingWorker signalingWorker = null;
     private ServiceConnection signalingWorkerConn;
@@ -56,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Initiates UI components
         setContentView(R.layout.activity_main);
 
-        selfVideoContainer = (LinearLayout) findViewById(R.id.self_video_container);
+        videoViewContainer = (LinearLayout) findViewById(R.id.video_view_container);
 
         btnConnect = (Button) findViewById(R.id.btn_connect);
         btnConnect.setOnClickListener(this);
@@ -111,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn = (Button) v;
         if (btn.getText().toString().equalsIgnoreCase("Connect")) {
             btnConnect.setEnabled(false);
-            webRTCWorker.initCamera(selfVideoContainer);
+            webRTCWorker.initCamera(videoViewContainer);
         }
         if (btn.getText().toString().equalsIgnoreCase("Call")) {
             btnCall.setEnabled(false);

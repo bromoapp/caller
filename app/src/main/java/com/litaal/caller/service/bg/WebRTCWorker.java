@@ -38,7 +38,7 @@ public class WebRTCWorker extends Service {
     private static Logger log = LoggerFactory.getLogger(WebRTCWorker.class);
     private final IBinder binder = new WebRTCWorkerBinder();
 
-    private GLSurfaceView selfVideo;
+    private GLSurfaceView videoView;
 
     private PeerConnectionFactory peerConnFactory;
     private PeerConnection peerConnection;
@@ -76,9 +76,9 @@ public class WebRTCWorker extends Service {
                 AudioSource audSource = peerConnFactory.createAudioSource(audConstraints);
                 AudioTrack localAudTrack = peerConnFactory.createAudioTrack("ARDAMSa0", audSource);
 
-                selfVideo = new GLSurfaceView(getBaseContext());
-                selfVideo.setEGLContextClientVersion(2);
-                VideoRendererGui.setView(selfVideo, new Runnable() {
+                videoView = new GLSurfaceView(getBaseContext());
+                videoView.setEGLContextClientVersion(2);
+                VideoRendererGui.setView(videoView, new Runnable() {
                     @Override
                     public void run() {
 
@@ -86,7 +86,7 @@ public class WebRTCWorker extends Service {
                 });
                 VideoRenderer vidRenderer = VideoRendererGui.createGui(0, 0, 100, 100, RendererCommon.ScalingType.SCALE_ASPECT_FILL, true);
                 localVidTrack.addRenderer(vidRenderer);
-                layout.addView(selfVideo);
+                layout.addView(videoView);
 
                 localStream = peerConnFactory.createLocalMediaStream("LOCAL_VID_STREAM");
                 localStream.addTrack(localVidTrack);
