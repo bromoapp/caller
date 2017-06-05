@@ -81,9 +81,7 @@ public class WebRTCWorker extends Service {
                 videoView.setEGLContextClientVersion(2);
                 VideoRendererGui.setView(videoView, new Runnable() {
                     @Override
-                    public void run() {
-
-                    }
+                    public void run() {}
                 });
                 VideoRenderer vidRenderer = VideoRendererGui.createGui(0, 0, 100, 100, RendererCommon.ScalingType.SCALE_ASPECT_FILL, true);
                 localVidTrack.addRenderer(vidRenderer);
