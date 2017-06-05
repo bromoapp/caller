@@ -147,7 +147,7 @@ public class WebRTCWorker extends Service {
         }
     }
 
-    public void setRemoteSDP(SessionDescription sdp) {
+    public void onReceivedAnswer(SessionDescription sdp) {
         peerConnection.setRemoteDescription(sdpObserver, sdp);
     }
 

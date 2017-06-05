@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.litaal.caller.R;
@@ -149,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //log.info(">>> REOMTE SDP DESC: " + dto.getSdp().getSdp());
                     if (dto.getSdp().getType().equalsIgnoreCase(SessionDescription.Type.ANSWER.canonicalForm())) {
                         SessionDescription sdp = new SessionDescription(SessionDescription.Type.ANSWER, dto.getSdp().getSdp());
-                        webRTCWorker.setRemoteSDP(sdp);
+                        webRTCWorker.onReceivedAnswer(sdp);
                     }
                 }
             }

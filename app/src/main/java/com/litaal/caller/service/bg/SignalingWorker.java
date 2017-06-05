@@ -26,7 +26,7 @@ public class SignalingWorker extends Service implements ISocketEventsListener, I
     private static Logger log = LoggerFactory.getLogger(SignalingWorker.class);
     private final IBinder binder = new SignalingWorkerBinder();
 
-    private String wsUrl = "ws://192.168.150.1:4000/socket/websocket?user=caller&vsn=1.0.0";
+    private String wsUrl = "ws://192.168.150.1:4000/socket/websocket?user=caller";
     private String channel_topic = "room";
     private String message_topic = "message";
 
