@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.litaal.caller.R;
+import com.litaal.caller.dto.CandidateSignalDTO;
 import com.litaal.caller.dto.SdpSignalDTO;
 import com.litaal.caller.dto.SignalDTO;
 import com.litaal.caller.helper.Constant;
@@ -24,6 +25,7 @@ import com.litaal.caller.service.bg.WebRTCWorker;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.webrtc.IceCandidate;
 import org.webrtc.SessionDescription;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
@@ -147,6 +149,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (dto.getSdp().getType().equalsIgnoreCase(SessionDescription.Type.ANSWER.canonicalForm())) {
                         SessionDescription sdp = new SessionDescription(SessionDescription.Type.ANSWER, dto.getSdp().getSdp());
                         webRTCWorker.onReceivedAnswer(sdp);
+                    } else if (msg.getBody().contains("{\"candidate\":")) {
+                        CandidateSignalDTO can = gson.fromJson(msg.getBody(), CandidateSignalDTO.class);
+                        IceCandidate candidate = new IceCandidate(can.getCandidate().getSdpMid(),
+                                can.getCandidate().getSdpMLineIndex(), can.getCandidate().getCandidate());
+                        webRTCWorker.onReceiveCandidate(candidate);
                     }
                 }
             }

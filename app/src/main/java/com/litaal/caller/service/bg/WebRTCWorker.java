@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.webrtc.AudioSource;
 import org.webrtc.AudioTrack;
 import org.webrtc.CameraEnumerationAndroid;
+import org.webrtc.IceCandidate;
 import org.webrtc.MediaConstraints;
 import org.webrtc.MediaStream;
 import org.webrtc.PeerConnection;
@@ -42,7 +43,7 @@ public class WebRTCWorker extends Service {
 
     private PeerConnectionFactory peerConnFactory;
     private PeerConnection peerConnection;
-    private MediaStream localStream;
+    private MediaStream mediaStream;
     private SdpObserver sdpObserver;
 
     public class WebRTCWorkerBinder extends ServiceBinder {
@@ -88,9 +89,9 @@ public class WebRTCWorker extends Service {
                 localVidTrack.addRenderer(vidRenderer);
                 layout.addView(videoView);
 
-                localStream = peerConnFactory.createLocalMediaStream("LOCAL_VID_STREAM");
-                localStream.addTrack(localVidTrack);
-                localStream.addTrack(localAudTrack);
+                mediaStream = peerConnFactory.createLocalMediaStream("LOCAL_VID_STREAM");
+                mediaStream.addTrack(localVidTrack);
+                mediaStream.addTrack(localAudTrack);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,11 +107,11 @@ public class WebRTCWorker extends Service {
             List<PeerConnection.IceServer> iceServers = new ArrayList<>();
             iceServers.add(new PeerConnection.IceServer("stun:stun.l.google.com:19302"));
 
-            PeerConnection.Observer observer = new PeerConnObserverImpl();
-            ((PeerConnObserverImpl) observer).setActivity(activity);
+            PeerConnection.Observer connObserver = new PeerConnObserverImpl();
+            ((PeerConnObserverImpl) connObserver).setActivity(activity);
 
-            peerConnection = peerConnFactory.createPeerConnection(iceServers, new MediaConstraints(), observer);
-            peerConnection.addStream(localStream);
+            peerConnection = peerConnFactory.createPeerConnection(iceServers, new MediaConstraints(), connObserver);
+            peerConnection.addStream(mediaStream);
 
             sdpObserver = new SdpObserverImpl();
             ((SdpObserverImpl) sdpObserver).setActivity(activity);
@@ -125,6 +126,10 @@ public class WebRTCWorker extends Service {
 
     public void onReceivedAnswer(SessionDescription sdp) {
         peerConnection.setRemoteDescription(sdpObserver, sdp);
+    }
+
+    public void onReceiveCandidate(IceCandidate candidate) {
+        peerConnection.addIceCandidate(candidate);
     }
 
     @Override
